@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Từ Điển & Luyện Tập 6 Cấp Độ CEFR (A1 - C2) | 5.934 Từ Vựng Cốt Lõi</title>
+  <meta name="description" content="Nền tảng tra cứu, học từ vựng, flashcard và trắc nghiệm 6 cấp độ CEFR tiếng Anh (A1, A2, B1, B2, C1, C2) với gần 6.000 từ chuẩn Oxford.">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    
+    /* 3D Flip Card Styles */
+    .perspective-1000 { perspective: 1000px; }
+    .transform-style-3d { transform-style: preserve-3d; }
+    .backface-hidden { backface-visibility: hidden; }
+    .rotate-y-180 { transform: rotateY(180deg); }
+    
+    /* Glassmorphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+    }
+    .dark .glass {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-full font-sans transition-colors duration-200 flex flex-col">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="sticky top-0 z-50 glass border-b border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
+            <i class="fa-solid fa-graduation-cap text-lg"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">CEFR VOCABULARY</h1>
+              <span class="px-2 py-0.5 text-xs font-bold bg-indigo-100 dark:bg-indigo-950/80 text-brand-600 dark:text-brand-400 rounded-full border border-indigo-200 dark:border-indigo-800">A1 - C2</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Trọn bộ 5.934 từ vựng cốt lõi chuẩn Oxford & Cambridge</p>
+          </div>
+        </div>
+
+        <!-- Mode Navigation Tabs -->
+        <nav class="flex items-center gap-1 sm:gap-2 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
+          <button id="tab-dict" onclick="switchMode('dict')" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm">
+            <i class="fa-solid fa-book-open"></i>
+            <span class="hidden md:inline">Từ điển</span>
+          </button>
+          <button id="tab-flashcard" onclick="switchMode('flashcard')" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            <i class="fa-solid fa-clone"></i>
+            <span class="hidden md:inline">Flashcards</span>
+          </button>
+          <button id="tab-quiz" onclick="switchMode('quiz')" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            <i class="fa-solid fa-circle-question"></i>
+            <span class="hidden md:inline">Trắc nghiệm</span>
+          </button>
+        </nav>
+
+        <!-- Right Utilities (Theme + Export + Bookmarks) -->
+        <div class="flex items-center gap-2">
+          <!-- Favorite Filter Button in Header -->
+          <button onclick="toggleFavoriteFilter()" id="btn-fav-header" title="Xem từ đã lưu" class="p-2 rounded-xl text-slate-500 hover:text-amber-500 dark:text-slate-400 dark:hover:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors border border-transparent hover:border-slate-200 dark:hover:border-slate-800">
+            <i class="fa-solid fa-star text-base"></i>
+            <span id="fav-count-badge" class="ml-1 text-xs font-bold text-amber-500 hidden">0</span>
+          </button>
+
+          <!-- Dark / Light Toggle -->
+          <button onclick="toggleDarkMode()" title="Chuyển chế độ sáng/tối" class="p-2 rounded-xl text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors border border-transparent hover:border-slate-200 dark:hover:border-slate-800">
+            <i class="fa-solid fa-moon dark:hidden text-base"></i>
+            <i class="fa-solid fa-sun hidden dark:inline text-base text-amber-400"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ==================== MODE 1: DICTIONARY / TABLE ==================== -->
+    <div id="view-dict" class="space-y-6">
+      
+      <!-- Filter Bar -->
+      <div class="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
+        
+        <!-- Search Input -->
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-base"></i>
+          <input type="text" id="search-input" oninput="onSearchChange()" placeholder="Tìm kiếm từ tiếng Anh, phát âm, nghĩa tiếng Việt hoặc câu ví dụ..." 
+            class="w-full pl-11 pr-10 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all">
+          <button id="clear-search-btn" onclick="clearSearch()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hidden">
+            <i class="fa-solid fa-xmark text-base"></i>
+          </button>
+        </div>
+
+        <!-- Level Selector Chips -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs sm:text-sm font-semibold">
+          <span class="text-xs text-slate-400 uppercase tracking-wider font-bold shrink-0 mr-1"><i class="fa-solid fa-layer-group mr-1"></i>Cấp độ:</span>
+          
+          <button onclick="setLevelFilter('ALL')" class="level-chip active px-3 py-1.5 rounded-lg border transition-all shrink-0 bg-brand-600 border-brand-600 text-white shadow-sm" data-lvl="ALL">
+            Tất cả <span id="chip-count-ALL" class="text-xs opacity-80 font-normal">(5.934)</span>
+          </button>
+          
+          <button onclick="setLevelFilter('A1')" class="level-chip px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all shrink-0" data-lvl="A1">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-1.5"></span>A1 <span id="chip-count-A1" class="text-xs opacity-75 font-normal">(909)</span>
+          </button>
+          
+          <button onclick="setLevelFilter('A2')" class="level-chip px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all shrink-0" data-lvl="A2">
+            <span class="inline-block w-2 h-2 rounded-full bg-teal-500 mr-1.5"></span>A2 <span id="chip-count-A2" class="text-xs opacity-75 font-normal">(905)</span>
+          </button>
+          
+          <button onclick="setLevelFilter('B1')" class="level-chip px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all shrink-0" data-lvl="B1">
+            <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1.5"></span>B1 <span id="chip-count-B1" class="text-xs opacity-75 font-normal">(1.544)</span>
+          </button>
+          
+          <button onclick="setLevelFilter('B2')" class="level-chip px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all shrink-0" data-lvl="B2">
+            <span class="inline-block w-2 h-2 rounded-full bg-indigo-500 mr-1.5"></span>B2 <span id="chip-count-B2" class="text-xs opacity-75 font-normal">(1.020)</span>
+          </button>
+          
+          <button onclick="setLevelFilter('C1')" class="level-chip px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all shrink-0" data-lvl="C1">
+            <span class="inline-block w-2 h-2 rounded-full bg-purple-500 mr-1.5"></span>C1 <span id="chip-count-C1" class="text-xs opacity-75 font-normal">(877)</span>
+          </button>
+          
+          <button onclick="setLevelFilter('C2')" class="level-chip px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all shrink-0" data-lvl="C2">
+            <span class="inline-block w-2 h-2 rounded-full bg-rose-500 mr-1.5"></span>C2 <span id="chip-count-C2" class="text-xs opacity-75 font-normal">(679)</span>
+          </button>
+        </div>
+
+        <!-- Secondary Filter Controls (POS, Sort, View style) -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs sm:text-sm">
+          
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- POS Dropdown -->
+            <select id="pos-filter" onchange="onFilterChange()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-500">
+              <option value="ALL">Tất cả loại từ</option>
+              <option value="n">Danh từ (n)</option>
+              <option value="v">Động từ (v)</option>
+              <option value="adj">Tính từ (adj)</option>
+              <option value="adv">Trạng từ (adv)</option>
+              <option value="phrasal">Cụm động từ (phrasal v)</option>
+            </select>
+
+            <!-- Sort Dropdown -->
+            <select id="sort-filter" onchange="onFilterChange()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-500">
+              <option value="az">Sắp xếp: A -> Z</option>
+              <option value="za">Sắp xếp: Z -> A</option>
+              <option value="level">Theo cấp độ (A1 -> C2)</option>
+              <option value="random">Xáo trộn ngẫu nhiên</option>
+            </select>
+
+            <!-- Items per page -->
+            <select id="page-size" onchange="onPageSizeChange()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-500">
+              <option value="25">25 từ / trang</option>
+              <option value="50" selected>50 từ / trang</option>
+              <option value="100">100 từ / trang</option>
+              <option value="200">200 từ / trang</option>
+            </select>
+          </div>
+
+          <!-- Export & Info Action -->
+          <div class="flex items-center gap-2">
+            <button onclick="exportToCSV()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center gap-1.5 transition-colors font-medium" title="Xuất danh sách đang lọc ra file Excel CSV">
+              <i class="fa-solid fa-file-csv text-emerald-600"></i> Xuất CSV
+            </button>
+            <button onclick="exportToAnki()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center gap-1.5 transition-colors font-medium" title="Xuất file import thẻ Anki">
+              <i class="fa-solid fa-download text-indigo-600"></i> Xuất Anki
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Results Count & Current Active Filter Banner -->
+      <div class="flex items-center justify-between px-1">
+        <div class="text-sm font-medium text-slate-500 dark:text-slate-400">
+          Hiển thị <span id="results-count" class="font-bold text-slate-900 dark:text-white">0</span> kết quả
+          <span id="active-filter-label" class="ml-1 text-xs text-brand-600 dark:text-brand-400 font-semibold"></span>
+        </div>
+        <div id="pagination-info-top" class="text-xs text-slate-500"></div>
+      </div>
+
+      <!-- Vocabulary Cards / Grid -->
+      <div id="vocab-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Javascript will inject vocabulary cards here -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-16 px-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 text-2xl">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-800 dark:text-slate-200 mb-1">Không tìm thấy từ vựng phù hợp</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto">Vui lòng thử từ khóa khác hoặc chuyển sang danh mục cấp độ khác.</p>
+        <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold hover:bg-brand-700 transition-colors">
+          Đặt lại bộ lọc
+        </button>
+      </div>
+
+      <!-- Bottom Pagination Bar -->
+      <div id="pagination-container" class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+        <div id="pagination-info-bottom" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400"></div>
+        <div id="pagination-buttons" class="flex items-center gap-1">
+          <!-- Buttons dynamically injected -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== MODE 2: FLASHCARDS ==================== -->
+    <div id="view-flashcard" class="hidden space-y-6 max-w-2xl mx-auto py-4">
+      
+      <!-- Flashcard Header & Level Selector -->
+      <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-slate-400 uppercase">Cấp độ học:</span>
+          <select id="fc-level-select" onchange="initFlashcards()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
+            <option value="ALL">Tất cả cấp độ (5.934 từ)</option>
+            <option value="A1">A1 - Beginner (909 từ)</option>
+            <option value="A2">A2 - Elementary (905 từ)</option>
+            <option value="B1">B1 - Intermediate (1.544 từ)</option>
+            <option value="B2">B2 - Upper-Intermediate (1.020 từ)</option>
+            <option value="C1">C1 - Advanced (877 từ)</option>
+            <option value="C2">C2 - Mastery (679 từ)</option>
+            <option value="FAV">⭐ Từ vựng đã đánh dấu</option>
+          </select>
+        </div>
+        <div class="text-xs sm:text-sm font-semibold text-slate-500">
+          Thẻ: <span id="fc-counter" class="text-brand-600 dark:text-brand-400 font-bold">1 / 100</span>
+        </div>
+      </div>
+
+      <!-- Flashcard Progress Bar -->
+      <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+        <div id="fc-progress" class="bg-gradient-to-r from-brand-600 to-indigo-500 h-full transition-all duration-300" style="width: 1%"></div>
+      </div>
+
+      <!-- 3D Interactive Flashcard -->
+      <div class="perspective-1000 w-full min-h-[360px] sm:min-h-[400px] cursor-pointer select-none" onclick="flipFlashcard()">
+        <div id="fc-card" class="relative w-full h-full min-h-[360px] sm:min-h-[400px] rounded-3xl transition-transform duration-500 transform-style-3d shadow-xl border border-slate-200/80 dark:border-slate-800">
+          
+          <!-- FRONT FACE (English Word & IPA & Audio) -->
+          <div class="absolute inset-0 w-full h-full rounded-3xl p-8 flex flex-col justify-between items-center text-center bg-white dark:bg-slate-900 backface-hidden">
+            <div class="w-full flex items-center justify-between">
+              <span id="fc-front-level" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-100 text-brand-700 dark:bg-indigo-950 dark:text-brand-300">B2</span>
+              <button onclick="event.stopPropagation(); speakWord(currentFcWord.word)" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 transition-colors" title="Phát âm">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
+            </div>
+
+            <div class="space-y-3 my-auto">
+              <h2 id="fc-front-word" class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">abandon</h2>
+              <div class="flex items-center justify-center gap-2">
+                <span id="fc-front-pos" class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">v</span>
+                <span id="fc-front-ipa" class="font-mono text-sm sm:text-base text-slate-500 dark:text-slate-400">/əˈbændən/</span>
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-400 flex items-center gap-1.5 font-medium">
+              <i class="fa-solid fa-hand-pointer"></i> Nhấn để lật xem nghĩa & ví dụ
+            </div>
+          </div>
+
+          <!-- BACK FACE (Vietnamese Meaning & Bilingual Example) -->
+          <div class="absolute inset-0 w-full h-full rounded-3xl p-8 flex flex-col justify-between items-center text-center bg-gradient-to-br from-slate-900 to-indigo-950 text-white rotate-y-180 backface-hidden shadow-2xl">
+            <div class="w-full flex items-center justify-between">
+              <span id="fc-back-level" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-white/10 text-brand-300">B2</span>
+              <span id="fc-back-pos" class="text-xs font-semibold px-2 py-0.5 rounded bg-white/10 text-slate-300">v</span>
+            </div>
+
+            <div class="space-y-4 my-auto max-w-lg">
+              <h3 id="fc-back-meaning" class="text-2xl sm:text-3xl font-extrabold text-amber-300">từ bỏ, bỏ rơi</h3>
+              <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-left space-y-1.5">
+                <p id="fc-back-ex-en" class="text-sm sm:text-base text-slate-200 italic font-medium">"They had to abandon the sinking ship."</p>
+                <p id="fc-back-ex-vi" class="text-xs sm:text-sm text-slate-400">(Họ đã phải từ bỏ con tàu đang chìm.)</p>
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-400 flex items-center gap-1.5 font-medium">
+              <i class="fa-solid fa-hand-pointer"></i> Nhấn để quay lại mặt trước
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Controls (Prev, Random, Next) -->
+      <div class="flex items-center justify-center gap-3 pt-2">
+        <button onclick="prevFlashcard()" class="px-5 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold text-sm flex items-center gap-2 shadow-sm transition-all">
+          <i class="fa-solid fa-arrow-left"></i> Trước
+        </button>
+        <button onclick="randomFlashcard()" class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm shadow-sm transition-all" title="Thẻ ngẫu nhiên">
+          <i class="fa-solid fa-shuffle"></i>
+        </button>
+        <button onclick="nextFlashcard()" class="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm flex items-center gap-2 shadow-md shadow-brand-500/20 transition-all">
+          Tiếp theo <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ==================== MODE 3: QUIZ / PRACTICE ==================== -->
+    <div id="view-quiz" class="hidden space-y-6 max-w-2xl mx-auto py-4">
+      
+      <!-- Quiz Setup Panel -->
+      <div id="quiz-setup-card" class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 text-center">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 text-brand-600 dark:text-brand-400 flex items-center justify-center text-2xl">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">Luyện Tập Trắc Nghiệm Từ Vựng</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Kiểm tra khả năng ghi nhớ nghĩa và ngữ cảnh với bộ câu hỏi ngẫu nhiên 4 lựa chọn.</p>
+        </div>
+
+        <div class="max-w-xs mx-auto space-y-4 text-left">
+          <div>
+            <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Chọn Cấp độ thi:</label>
+            <select id="quiz-level-select" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-200">
+              <option value="ALL">Tất cả cấp độ (A1 - C2)</option>
+              <option value="A1">A1 - Beginner</option>
+              <option value="A2">A2 - Elementary</option>
+              <option value="B1">B1 - Intermediate</option>
+              <option value="B2">B2 - Upper-Intermediate</option>
+              <option value="C1">C1 - Advanced</option>
+              <option value="C2">C2 - Mastery</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Số lượng câu hỏi:</label>
+            <select id="quiz-count-select" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-200">
+              <option value="10">10 câu hỏi</option>
+              <option value="20" selected>20 câu hỏi</option>
+              <option value="30">30 câu hỏi</option>
+              <option value="50">50 câu hỏi</option>
+            </select>
+          </div>
+        </div>
+
+        <button onclick="startQuiz()" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-sm sm:text-base shadow-lg shadow-brand-500/25 transition-all">
+          Bắt đầu làm bài thi <i class="fa-solid fa-play ml-1.5"></i>
+        </button>
+      </div>
+
+      <!-- Quiz Active Board (Hidden initially) -->
+      <div id="quiz-active-card" class="hidden space-y-6">
+        
+        <!-- Score & Question Counter -->
+        <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+          <div class="flex items-center gap-2">
+            <span id="quiz-badge-level" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-100 text-brand-700 dark:bg-indigo-950 dark:text-brand-300">B2</span>
+            <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Câu <span id="quiz-current-idx">1</span> / <span id="quiz-total-idx">20</span></span>
+          </div>
+          <div class="flex items-center gap-4 text-xs sm:text-sm font-bold">
+            <span class="text-emerald-600 dark:text-emerald-400"><i class="fa-solid fa-check"></i> <span id="quiz-correct-count">0</span></span>
+            <span class="text-rose-500 dark:text-rose-400"><i class="fa-solid fa-xmark"></i> <span id="quiz-wrong-count">0</span></span>
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+          <div class="text-center space-y-2">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Từ vựng</span>
+            <div class="flex items-center justify-center gap-3">
+              <h2 id="quiz-word" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">accomplish</h2>
+              <button onclick="speakWord(currentQuizItem.word)" class="text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors" title="Phát âm">
+                <i class="fa-solid fa-volume-high text-xl"></i>
+              </button>
+            </div>
+            <p id="quiz-ipa" class="font-mono text-sm text-slate-500">/əˈkʌmplɪʃ/ - <span id="quiz-pos" class="italic">v</span></p>
+          </div>
+
+          <div class="text-sm font-semibold text-slate-700 dark:text-slate-300 text-center">
+            Hãy chọn nghĩa tiếng Việt chính xác nhất:
+          </div>
+
+          <!-- 4 Options -->
+          <div id="quiz-options" class="grid grid-cols-1 gap-3">
+            <!-- Dynamically generated buttons -->
+          </div>
+
+          <!-- Explanation Banner (Hidden until answered) -->
+          <div id="quiz-explanation" class="hidden p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="text-xs font-bold text-slate-400 uppercase">Ví dụ minh họa:</div>
+            <p id="quiz-ex-en" class="text-sm text-slate-800 dark:text-slate-200 italic font-medium"></p>
+            <p id="quiz-ex-vi" class="text-xs text-slate-500 dark:text-slate-400"></p>
+          </div>
+
+          <div class="flex justify-end">
+            <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-sm transition-all">
+              Câu tiếp theo <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Quiz Result Summary (Hidden until finished) -->
+      <div id="quiz-result-card" class="hidden bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 text-center space-y-6 shadow-xl">
+        <div class="w-20 h-20 mx-auto rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-500 flex items-center justify-center text-3xl">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <div class="space-y-1">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Hoàn Thành Bài Luyện Tập!</h2>
+          <p id="quiz-score-summary" class="text-sm sm:text-base text-slate-600 dark:text-slate-400">Bạn đã trả lời đúng 18 / 20 câu (90%).</p>
+        </div>
+
+        <div class="flex justify-center gap-3">
+          <button onclick="startQuiz()" class="px-6 py-3 bg-brand-600 text-white font-bold rounded-xl text-sm shadow-md hover:bg-brand-700 transition-all">
+            Làm lại bài thi mới <i class="fa-solid fa-rotate-right ml-1"></i>
+          </button>
+          <button onclick="switchMode('dict')" class="px-6 py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+            Về Từ điển
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 py-6 text-center text-xs text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 CEFR English Dictionary. Chuẩn hóa theo khung tham chiếu Châu Âu (A1 - C2).</p>
+      <p class="flex items-center gap-3">
+        <span>Tổng cộng: <strong class="text-slate-800 dark:text-slate-200">5.934</strong> từ vựng</span>
+        <span>•</span>
+        <a href="https://github.com/nguyendangkin" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+          <i class="fa-brands fa-github"></i> GitHub
+        </a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Include Vocabulary Database -->
+  <script src="data.js"></script>
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
